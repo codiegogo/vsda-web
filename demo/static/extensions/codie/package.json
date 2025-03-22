@@ -1,147 +1,147 @@
 {
-	"name": "codie",
-	"displayName": "Codie",
-	"description": "Codie extension",
-	"version": "0.0.7",
-	"publisher": "btwiuse",
-	"private": true,
-	"license": "MIT",
-	"repository": {
-		"type": "git",
-		"url": "https://github.com/btwiuse/codie"
-	},
-	"bugs": {
-		"url": "https://github.com/btwiuse/codie/issues"
-	},
-	"engines": {
-		"vscode": "^1.64.0"
-	},
-	"aiKey": "AIF-d9b70cd4-b9f9-4d70-929b-a071c400b217",
-	"enabledApiProposals": [],
-	"categories": [
-		"Other"
-	],
-	"activationEvents": [
-		"*"
-	],
-	"browser": "./dist/web/extension.js",
-	"scripts2": {
-		"vscode:prepublish": "npm run compile",
-		"compile": "tsc -p ./",
-		"lint": "eslint . --ext .ts,.tsx",
-		"watch": "tsc -watch -p ./"
-	},
-	"scripts": {
-		"test": "vscode-test-web --browserType=chromium --extensionDevelopmentPath=. --extensionTestsPath=dist/web/test/suite/index.js",
-		"pretest": "npm run compile-web",
-		"compile-web": "webpack",
-		"watch-web": "webpack --watch",
-		"package-web": "webpack --mode production --devtool hidden-source-map",
-		"lint": "eslint src --ext ts",
-		"run-in-browser": "vscode-test-web --browserType=chromium --extensionDevelopmentPath=. ."
-	},
-	"contributes": {
-		"commands": [
-			{
-				"command": "workbench.action.remote.new0",
-				"category": "Codie",
-				"title": "new window0"
-			},
-			{
-				"command": "workbench.action.remote.new00",
-				"category": "Codie",
-				"title": "new window00"
-			},
-			{
-				"command": "workbench.action.remote.new000",
-				"category": "Codie",
-				"title": "new window000"
-			},
-			{
-				"command": "workbench.action.remote.new0000",
-				"category": "Codie",
-				"title": "new window0000"
-			},
-			{
-				"command": "workbench.action.remote.new00000",
-				"category": "Codie",
-				"title": "new window0000"
-			},
-			{
-				"command": "workbench.action.remote.new1",
-				"category": "Codie",
-				"title": "new window1"
-			},
-			{
-				"command": "workbench.action.remote.new2",
-				"category": "Codie",
-				"title": "new window2"
-			},
-			{
-				"command": "workbench.action.remote.new3",
-				"category": "Codie",
-				"title": "new window3"
-			},
-			{
-				"command": "workbench.action.remote.close2",
-				"category": "Codie",
-				"title": "Log all registered commands"
-			},
-			{
-				"command": "workbench.action.remote.newWithInput",
-				"category": "Codie",
-				"title": "Connect remote authority"
-			},
-			{
-				"command": "workbench.action.remote.newWindowWithInput",
-				"category": "Codie",
-				"title": "Open remote authority in new window"
-			},
-			{
-				"command": "workbench.action.remote.closeCurrent",
-				"category": "Codie",
-				"title": "Disconnect remote authority"
-			}
-		],
-		"menus": {
-			"statusBar/remoteIndicator": [
-				{
-					"command": "workbench.action.remote.close2",
-					"group": "remote_10_vscode-remote-server_0_local@1"
-				},
-				{
-					"command": "workbench.action.remote.closeCurrent",
-					"group": "remote_10_vscode-remote-server_0_local@4"
-				},
-				{
-					"command": "workbench.action.remote.newWindowWithInput",
-					"group": "remote_10_vscode-remote-server_0_local@3"
-				},
-				{
-					"command": "workbench.action.remote.newWithInput",
-					"group": "remote_10_vscode-remote-server_0_local@2"
-				}
-			]
-		}
-	},
-	"devDependencies": {
-		"@types/mocha": "^9.0.0",
-		"@types/vscode": "^1.64.0",
-		"@types/webpack-env": "^1.16.2",
-		"@typescript-eslint/eslint-plugin": "^5.1.0",
-		"@typescript-eslint/parser": "^5.1.0",
-		"@vscode/test-web": "^0.0.15",
-		"assert": "^2.0.0",
-		"eslint": "^8.1.0",
-		"mocha": "^9.1.3",
-		"process": "^0.11.10",
-		"ts-loader": "^9.2.5",
-		"typescript": "^4.4.4",
-		"webpack": "^5.52.1",
-		"webpack-cli": "^4.9.2"
-	},
-	"dependencies": {
-		"express": "^4.17.3",
-		"path": "^0.12.7"
-	}
+  "name": "codie",
+  "displayName": "Codie",
+  "description": "Codie extension",
+  "version": "0.0.7",
+  "publisher": "btwiuse",
+  "private": true,
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/btwiuse/codie"
+  },
+  "bugs": {
+    "url": "https://github.com/btwiuse/codie/issues"
+  },
+  "engines": {
+    "vscode": "^1.64.0"
+  },
+  "aiKey": "AIF-d9b70cd4-b9f9-4d70-929b-a071c400b217",
+  "enabledApiProposals": [],
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "*"
+  ],
+  "browser": "./dist/web/extension.js",
+  "scripts2": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "lint": "eslint . --ext .ts,.tsx",
+    "watch": "tsc -watch -p ./"
+  },
+  "scripts": {
+    "test": "vscode-test-web --browserType=chromium --extensionDevelopmentPath=. --extensionTestsPath=dist/web/test/suite/index.js",
+    "pretest": "npm run compile-web",
+    "compile-web": "webpack",
+    "watch-web": "webpack --watch",
+    "package-web": "webpack --mode production --devtool hidden-source-map",
+    "lint": "eslint src --ext ts",
+    "run-in-browser": "vscode-test-web --browserType=chromium --extensionDevelopmentPath=. ."
+  },
+  "contributes": {
+    "commands": [
+      {
+        "command": "workbench.action.remote.new0",
+        "category": "Codie",
+        "title": "new window0"
+      },
+      {
+        "command": "workbench.action.remote.new00",
+        "category": "Codie",
+        "title": "new window00"
+      },
+      {
+        "command": "workbench.action.remote.new000",
+        "category": "Codie",
+        "title": "new window000"
+      },
+      {
+        "command": "workbench.action.remote.new0000",
+        "category": "Codie",
+        "title": "new window0000"
+      },
+      {
+        "command": "workbench.action.remote.new00000",
+        "category": "Codie",
+        "title": "new window0000"
+      },
+      {
+        "command": "workbench.action.remote.new1",
+        "category": "Codie",
+        "title": "new window1"
+      },
+      {
+        "command": "workbench.action.remote.new2",
+        "category": "Codie",
+        "title": "new window2"
+      },
+      {
+        "command": "workbench.action.remote.new3",
+        "category": "Codie",
+        "title": "new window3"
+      },
+      {
+        "command": "workbench.action.remote.close2",
+        "category": "Codie",
+        "title": "Log all registered commands"
+      },
+      {
+        "command": "workbench.action.remote.newWithInput",
+        "category": "Codie",
+        "title": "Connect remote authority"
+      },
+      {
+        "command": "workbench.action.remote.newWindowWithInput",
+        "category": "Codie",
+        "title": "Open remote authority in new window"
+      },
+      {
+        "command": "workbench.action.remote.closeCurrent",
+        "category": "Codie",
+        "title": "Disconnect remote authority"
+      }
+    ],
+    "menus": {
+      "statusBar/remoteIndicator": [
+        {
+          "command": "workbench.action.remote.close2",
+          "group": "remote_10_vscode-remote-server_0_local@1"
+        },
+        {
+          "command": "workbench.action.remote.closeCurrent",
+          "group": "remote_10_vscode-remote-server_0_local@4"
+        },
+        {
+          "command": "workbench.action.remote.newWindowWithInput",
+          "group": "remote_10_vscode-remote-server_0_local@3"
+        },
+        {
+          "command": "workbench.action.remote.newWithInput",
+          "group": "remote_10_vscode-remote-server_0_local@2"
+        }
+      ]
+    }
+  },
+  "devDependencies": {
+    "@types/mocha": "^9.0.0",
+    "@types/vscode": "^1.64.0",
+    "@types/webpack-env": "^1.16.2",
+    "@typescript-eslint/eslint-plugin": "^5.1.0",
+    "@typescript-eslint/parser": "^5.1.0",
+    "@vscode/test-web": "^0.0.15",
+    "assert": "^2.0.0",
+    "eslint": "^8.1.0",
+    "mocha": "^9.1.3",
+    "process": "^0.11.10",
+    "ts-loader": "^9.2.5",
+    "typescript": "^4.4.4",
+    "webpack": "^5.52.1",
+    "webpack-cli": "^4.9.2"
+  },
+  "dependencies": {
+    "express": "^4.17.3",
+    "path": "^0.12.7"
+  }
 }
