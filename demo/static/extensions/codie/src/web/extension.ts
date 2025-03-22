@@ -12,17 +12,20 @@ let count = 0;
 let agents: any;
 
 function watch(){
-	let api = "wss://k0s.op.milvzn.com/api/agents/watch";
+	let api = "wss://k0s.up.railway.app/api/agents/watch";
 	let a = new WebSocket(api);
-	a.binaryType = "blob";
+	let dec = new TextDecoder();
+	a.binaryType = "arraybuffer";
 	a.addEventListener("message", ({data}: any)=>{
-		agents = JSON.parse(data);
+		agents = JSON.parse(dec.decode(data));
 		count = agents.length;
 		updateStatusBarItem();
 	});
 }
 
 export function activate({ subscriptions }: vscode.ExtensionContext) {
+  vscode.window.showInformationMessage(`Codie::Activated`);
+
   let x = vscode.workspace.registerRemoteAuthorityResolver;
   watch();
 
@@ -152,6 +155,22 @@ export function activate({ subscriptions }: vscode.ExtensionContext) {
 		const n = getNumberOfSelectedLines(vscode.window.activeTextEditor);
 		vscode.window.showInformationMessage(`Yeah, ${count} line(s) selected... Keep going!`);
 		console.log(count, agents)
+
+const quickPickItems = adaptToQuickPickItems(agents);
+
+vscode.window.showQuickPick(quickPickItems, {
+  placeHolder: 'Select a agent connection',
+  matchOnDescription: true,
+  matchOnDetail: true
+}).then((selected) => {
+  if (selected) {
+    console.log("selected", selected);
+    vscode.commands.executeCommand("echoshell.createNewTerminal", {
+	    value: `wss://k0s.up.railway.app/api/agent/${selected.agent.id}/terminal`,
+	    label: selected.agent.name,
+    });
+  }
+});
 	}));
 
 	// create a new status bar item that we can now manage
@@ -191,3 +210,58 @@ export function deactivate() {
 	// so nothing to do for now.
 }
 
+
+interface Agent {
+  id: string;
+  name: string;
+  tags: string[];
+  auth: boolean;
+  connected: number;
+  ip: string;
+  os: string;
+  pwd: string;
+  arch: string;
+  username: string;
+  hostname: string;
+  version: string;
+  git_summary: string;
+}
+
+interface AgentQuickPickItem extends vscode.QuickPickItem {
+	  agent: Agent;
+}
+
+function adaptToQuickPickItems(agents: Agent[]): AgentQuickPickItem[] {
+  return agents.map((agent) => {
+    // Format connection time
+    const connectedDate = new Date(agent.connected * 1000);
+    const timeString = connectedDate.toLocaleString();
+    
+    // Create status icons
+    const authIcon = agent.auth ? '$(lock)' : '$(unlock)';
+    const osIcon = agent.os === 'linux' ? '$(terminal-linux)' : '$(terminal)';
+    
+    // Build description
+    const descriptionParts = [
+      `$(history) Connected: ${timeString}`,
+      `$(tag) ${agent.tags.join(', ')}`,
+      `$(server) ${agent.hostname} (${agent.ip})`
+    ];
+
+    return {
+      agent,
+      label: `${authIcon} ${osIcon} ${agent.name}`,
+      description: descriptionParts.join('  •  '),
+      detail: [
+        `Path: ${agent.pwd}`,
+        `User: ${agent.username}@${agent.hostname}`,
+        `Version: ${agent.git_summary}`
+      ].join('\n'),
+      alwaysShow: true,
+      buttons: [{
+        iconPath: new vscode.ThemeIcon('link-external'),
+        tooltip: 'Open Connection'
+      }]
+    };
+  });
+}

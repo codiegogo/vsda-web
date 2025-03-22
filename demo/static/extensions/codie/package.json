@@ -2,7 +2,7 @@
 	"name": "codie",
 	"displayName": "Codie",
 	"description": "Codie extension",
-	"version": "0.0.14",
+	"version": "0.0.7",
 	"publisher": "btwiuse",
 	"private": true,
 	"license": "MIT",
@@ -17,10 +17,7 @@
 		"vscode": "^1.64.0"
 	},
 	"aiKey": "AIF-d9b70cd4-b9f9-4d70-929b-a071c400b217",
-	"enabledApiProposals": [
-		"resolvers",
-		"contribViewsRemote"
-	],
+	"enabledApiProposals": [],
 	"categories": [
 		"Other"
 	],
@@ -37,7 +34,6 @@
 	"scripts": {
 		"test": "vscode-test-web --browserType=chromium --extensionDevelopmentPath=. --extensionTestsPath=dist/web/test/suite/index.js",
 		"pretest": "npm run compile-web",
-		"vscode:prepublish": "npm run package-web",
 		"compile-web": "webpack",
 		"watch-web": "webpack --watch",
 		"package-web": "webpack --mode production --devtool hidden-source-map",
