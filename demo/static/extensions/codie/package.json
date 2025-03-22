@@ -2,7 +2,7 @@
   "name": "codie",
   "displayName": "Codie",
   "description": "Codie extension",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "publisher": "btwiuse",
   "private": true,
   "license": "MIT",
@@ -42,6 +42,11 @@
   },
   "contributes": {
     "commands": [
+      {
+        "command": "sample.showSelectionCount",
+        "category": "Codie",
+        "title": "show agent count"
+      },
       {
         "command": "workbench.action.remote.new0",
         "category": "Codie",
@@ -103,6 +108,17 @@
         "title": "Disconnect remote authority"
       }
     ],
+    "configuration": {
+      "id": "k0s",
+      "title": "hub",
+      "properties": {
+        "k0s.hub": {
+          "type": "string",
+          "description": "An array of WebSocket URL as QuickPickItem",
+          "default": ""
+        }
+      }
+    },
     "menus": {
       "statusBar/remoteIndicator": [
         {

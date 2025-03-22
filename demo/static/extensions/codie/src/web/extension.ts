@@ -6,18 +6,48 @@ import * as vscode from "vscode";
 
 let myStatusBarItem: vscode.StatusBarItem;
 
-let count = 0;
+let agents: any[] = [];
 
-let agents: any;
+function getConfigHub(): string | undefined {
+  const config = vscode.workspace.getConfiguration("k0s");
+  return config.get("hub");
+}
 
-function watch() {
-  let api = "wss://k0s.up.railway.app/api/agents/watch";
+function setConfigHub(hub: string) {
+  const config = vscode.workspace.getConfiguration("k0s");
+  vscode.window.showInformationMessage(`Setting hub to ${hub}`);
+  return config.update("hub", hub, vscode.ConfigurationTarget.Global);
+}
+
+async function editConfigHub() {
+  await vscode.commands.executeCommand(
+    "workbench.action.openSettingsJson",
+    { revealSetting: { key: "k0s.hub", edit: true } },
+  );
+}
+
+function getOrEditConfigHub() {
+  const hub = getConfigHub();
+  if (hub) {
+    if (!watched) {
+      watchOnce(hub!);
+      watched = true;
+    }
+    return hub;
+  }
+  vscode.window.showInformationMessage("Please set the hub");
+  editConfigHub();
+}
+
+var watched: boolean = false;
+
+function watchOnce(hub: string) {
+  let api = `${hub}/api/agents/watch`;
   let a = new WebSocket(api);
   let dec = new TextDecoder();
   a.binaryType = "arraybuffer";
   a.addEventListener("message", ({ data }: any) => {
     agents = JSON.parse(dec.decode(data));
-    count = agents.length;
     updateStatusBarItem();
   });
 }
@@ -26,7 +56,6 @@ export function activate({ subscriptions }: vscode.ExtensionContext) {
   vscode.window.showInformationMessage(`Codie::Activated`);
 
   let x = vscode.workspace.registerRemoteAuthorityResolver;
-  watch();
 
   let startNewD = vscode.commands.registerCommand(
     "workbench.action.remote.close2",
@@ -167,11 +196,13 @@ export function activate({ subscriptions }: vscode.ExtensionContext) {
   // item is selected
   const myCommandId = "sample.showSelectionCount";
   subscriptions.push(vscode.commands.registerCommand(myCommandId, () => {
-    const n = getNumberOfSelectedLines(vscode.window.activeTextEditor);
     vscode.window.showInformationMessage(
-      `Yeah, ${count} line(s) selected... Keep going!`,
+      `Yeah, ${agents.length} line(s) selected... Keep going!`,
     );
-    console.log(count, agents);
+    console.log(agents.length, agents);
+
+    let hub = getOrEditConfigHub();
+    if (!hub) return;
 
     const quickPickItems = adaptToQuickPickItems(agents);
 
@@ -183,8 +214,7 @@ export function activate({ subscriptions }: vscode.ExtensionContext) {
       if (selected) {
         console.log("selected", selected);
         vscode.commands.executeCommand("echoshell.createNewTerminal", {
-          value:
-            `wss://k0s.up.railway.app/api/agent/${selected.agent.id}/terminal`,
+          value: `${hub}/api/agent/${selected.agent.id}/terminal`,
           label: selected.agent.name,
         });
       }
@@ -209,30 +239,14 @@ export function activate({ subscriptions }: vscode.ExtensionContext) {
   );
 
   // update status bar item once at start
+  // updateStatusBarItem();
   updateStatusBarItem();
 }
 
 function updateStatusBarItem(): void {
-  const n = getNumberOfSelectedLines(vscode.window.activeTextEditor);
-  if (n >= 0) {
-    myStatusBarItem.text = `$(megaphone) ${count} agents(s) connected`;
-    myStatusBarItem.show();
-  } else {
-    myStatusBarItem.hide();
-  }
-}
-
-function getNumberOfSelectedLines(
-  editor: vscode.TextEditor | undefined,
-): number {
-  let lines = 0;
-  if (editor) {
-    lines = editor.selections.reduce(
-      (prev, curr) => prev + (curr.end.line - curr.start.line),
-      0,
-    );
-  }
-  return lines;
+  myStatusBarItem.text = `$(megaphone) ${agents.length} agents(s) connected`;
+  myStatusBarItem.show();
+  // myStatusBarItem.hide();
 }
 
 export function deactivate() {
