@@ -250,6 +250,7 @@ function updateStatusBarItem(): void {
 }
 
 export function deactivate() {
+  vscode.window.showInformationMessage(`Codie::Deactivated`);
   // Everything is nicely registered in context.subscriptions,
   // so nothing to do for now.
 }
